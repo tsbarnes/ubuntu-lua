@@ -273,7 +273,7 @@ function draw_logo(cairo, filename, x, y)
   cairo_surface_destroy(image)
 end
 
-function draw_clock_hands(cairo, x, y, show_seconds)
+function draw_clock_hands(cairo, x, y, clock_radius, show_seconds)
   local seconds = os.date("%S")
   local minutes = os.date("%M")
   local hours = os.date("%I")
@@ -342,5 +342,5 @@ function conky_clock_rings()
     end
   end
 
-  draw_clock_hands(cairo, settings.clock_x, settings.clock_y, settings.show_seconds)
+  draw_clock_hands(cairo, settings.clock_x, settings.clock_y, settings.clock_radius, settings.show_seconds)
 end
