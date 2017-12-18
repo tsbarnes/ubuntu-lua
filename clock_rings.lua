@@ -319,9 +319,28 @@ end
 
 function conky_clock_rings()
   local function setup_rings(cairo, ring)
-    local value = tonumber(conky_parse(string.format('${%s %s}', ring['name'], ring['arg'])))
-    local percent = value / ring['max']
+    -- local value = tonumber(conky_parse(string.format('${%s %s}', ring['name'], ring['arg'])))
+    local str=''
+    local value=0
 
+    str = string.format('${%s %s}',ring['name'],ring['arg'])
+
+    if str=='${time %I.%M}' then
+      str = conky_parse('${time %I}')+(conky_parse('${time %M}')/60)
+    elseif str=='${time %M.%S}' then
+      str = conky_parse('${time %M}')+(conky_parse('${time %S}')/60)
+    else
+      str = conky_parse(str)
+    end
+
+    value = tonumber(str)
+
+    if ( value == nil )
+      then value = 0 
+    end
+
+    percent = value / ring['max']
+   
     draw_ring(cairo, percent, ring)
   end
 
